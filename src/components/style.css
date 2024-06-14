@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+    @keyframes scale-up4 {
+        20% {
+            background-color: #fff;
+            transform: scaleY(1.5);
+        }
+        40% {
+            transform: scaleY(1);
+        }
+    }
+    .animate-scale-up4 {
+        animation: scale-up4 1s linear infinite;
+    }
+}
