@@ -52,7 +52,7 @@ const Register = () => {
 
   return (
     <>
-      <div className="container w-full h-screen bg-black text-white">
+      <div className="container max-w-full h-screen bg-black text-white ">
         <div className="flex justify-center items-center h-full">
           <div className="w-full md:w-1/2 lg:w-1/3 bg-opacity-10 backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 rounded-lg shadow-lg overflow-hidden p-4">
             <h2 className="text-2xl font-bold mb-4">Register</h2>

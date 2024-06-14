@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { FaPlayCircle } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -30,6 +31,9 @@ const Search = () => {
       toast.warn('Please enter a search query.');
     }
   };
+  const showPlayButton = (e) => {
+    e.target.style.display = 'block';
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -45,14 +49,15 @@ const Search = () => {
           Search
         </button>
       </form>
-      <div className="grid grid-rows-2 grid-flow-col gap-4  md:grid-col-2">
+      <div className="grid grid-rows-2 grid-flow-col gap-4  md:grid-col-2 ">
         {results.map((track) => (
-          <div key={track.id} className=" bg-gray-700 p-4 flex flex-col hover:bg-slate-600 cursor-pointer items-center justify-center rounded-md">
+          <div key={track.id} className=" bg-gray-700 p-4 flex flex-col relative hover:bg-slate-600 cursor-pointer items-center justify-center rounded-md">
             <div className="image-container w-40 h-40">
               <img src={track.album.images[0].url} alt={track.name} className="w-full h-40 object-cover rounded-lg mb-2" />
             </div>
-            <h3 className="text-lg text-gray-100">{track.name}</h3>
+            <h3 className="text-lg text-gray-100 text-center pt-2">{track.name}</h3>
             <p className="text-gray-400">{track.artists.map(artist => artist.name).join(', ')}</p>
+              <FaPlayCircle onMouseOver={showPlayButton} className="text-5xl text-lime-500 cursor-pointer hidden absolute bottom-20 right-5" />
           </div>
         ))}
       </div>
