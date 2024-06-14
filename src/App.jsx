@@ -7,6 +7,7 @@ import Register from "./layout/Auth/Register";
 import Premium from "./layout/Premium";
 //private Routes
 
+
 const App = ()=>{
   return(
     <>

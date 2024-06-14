@@ -3,11 +3,22 @@ import { Link } from 'react-router-dom';
 import { FaGoogle, FaFacebook, FaGithub, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
+  const [detail,setDetail] = useState({
+    email:'',
+    password:''
+  })
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
+
+  const handleServer = (e)=>{
+    e.preventDefault();
+    setDetail({...detail,[e.target.name]:e.target.value})
+    console.log(detail)
+   
+  }
 
   return (
     <>
@@ -15,13 +26,15 @@ const Login = () => {
         <div className="flex justify-center items-center h-full">
           <div className="w-full md:w-1/2 lg:w-1/3 bg-opacity-10 backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 rounded-lg shadow-lg overflow-hidden p-4">
             <h2 className="text-2xl font-bold mb-4">Login</h2>
-            <form>
+            <form onSubmit={handleServer}> 
               <div className="mb-4">
                 <label htmlFor="email" className="block text-white">Email</label>
                 <input
                   type="email"
                   name="email"
                   id="email"
+                  onChange={handleServer}
+                  value={detail.email}
                   className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:border-gray-500"
                 />
               </div>
@@ -31,11 +44,13 @@ const Login = () => {
                   type={passwordVisible ? 'text' : 'password'}
                   name="password"
                   id="password"
+                  value={detail.password}
+                  onChange={handleServer}
                   className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:border-gray-500"
                 />
                 <button
                   type="button"
-                  onClick={togglePasswordVisibility}
+                  
                   className="absolute inset-y-10 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-200 focus:outline-none"
                 >
                   {passwordVisible ? <FaEyeSlash /> : <FaEye />}
