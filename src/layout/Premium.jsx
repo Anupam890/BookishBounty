@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const Premium = () => {
   return (
-    <div className="container mx-auto px-4 py-12 bg-black text-white">
+    <div className="container mx-auto px-4 py-12 bg-black text-white min-w-full">
       <div className="flex flex-wrap justify-center -mx-4">
         <motion.div 
           className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8"

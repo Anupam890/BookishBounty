@@ -26,7 +26,7 @@ const Dashboard = () => {
           <Outlet />
         </div>
       </div>
-      <Player />
+      {/* <Player /> */}
     </>
   );
 };

@@ -3,49 +3,37 @@ import axios from "axios";
 
 const HomeDash = () => {
   const [songs, setSongs] = useState([]);
+  const [userName, setUserName] = useState('');
 
-  useEffect(() => {
-    const fetchSongs = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8090/api/music/recently"
-        );
-        console.log("API response:", response.data);
-
-        if (Array.isArray(response.data.items)) {
-          const formattedSongs = response.data.items.map((item) => ({
-            id: item.track.id,
-            title: item.track.name,
-            artist: item.track.artists.map((artist) => artist.name).join(", "),
-            albumArt: item.track.album.images[0].url,
-          }));
-          setSongs(formattedSongs);
-        } else {
-          console.error(
-            "API response does not contain an array of songs:",
-            response.data
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching songs:", error);
+  
+  
+  const fetchUserName = async()=>{
+    try{
+      const response = await axios.get('http://localhost:8090/api/user');
+      console.log('API response:', response.data);
+      if(response.data.name){
+        setUserName(response.data.name);
+      }else{
+        console.error('API response does not contain a name:', response.data);
       }
-    };
-
-    fetchSongs();
-  }, []);
-
+    }catch(error){
+      console.error('Error fetching user name:', error);
+    }
+  }
+  fetchUserName();
   const greet = () => {
     if (new Date().getHours() < 12) {
-      return "Good Morning";
+      return `Good Morning, ${userName}`;
     } else if (new Date().getHours() < 18) {
-      return "Good Afternoon";
+      return `Good Afternoon, ${userName}`
     } else {
-      return "Good Evening";
+      return `Good Evening, ${userName}`
     }
   };
 
   return (
     <div className="p-6">
+      <h1 className="text-3xl font-bold text-gray-100 mb-4">{greet()}</h1>
       <h2 className="text-2xl font-bold text-gray-100 mb-4">Recently Played</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {songs.map((song) => (

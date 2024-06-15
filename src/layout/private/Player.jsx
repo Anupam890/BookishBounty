@@ -1,54 +1,53 @@
-import React, { useState, useRef } from "react";
-import { FaPlayCircle ,FaHeart} from "react-icons/fa";
-import arijit from "../../assets/arijit.jpg";
+import React, { useEffect, useState } from 'react';
 
-const Player = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
+const Player = ({ trackUri }) => {
+  const [player, setPlayer] = useState(null);
 
-  const togglePlayPause = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://sdk.scdn.co/spotify-player.js';
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      const token = 'YOUR_SPOTIFY_ACCESS_TOKEN'; // Replace with your actual access token
+      const player = new window.Spotify.Player({
+        name: 'Web Playback SDK',
+        getOAuthToken: cb => { cb(token); },
+        volume: 0.5
+      });
+
+      player.addListener('ready', ({ device_id }) => {
+        console.log('Ready with Device ID', device_id);
+      });
+
+      player.addListener('not_ready', ({ device_id }) => {
+        console.log('Device ID has gone offline', device_id);
+      });
+
+      player.connect();
+
+      setPlayer(player);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (player && trackUri) {
+      player._options.getOAuthToken(access_token => {
+        fetch(`https://api.spotify.com/v1/me/player/play`, {
+          method: 'PUT',
+          body: JSON.stringify({ uris: [trackUri] }),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${access_token}`
+          },
+        });
+      });
     }
-    setIsPlaying(!isPlaying);
-  };
+  }, [player, trackUri]);
 
-  return (
-    <>
-      <div className="player-container bg-black w-full h-36 p-7 gap-4 flex items-center justify-between text-white border-white">
-        <div className="inner-container flex items-center">
-          <div className="image-container w-20 h-20">
-            <img src={arijit} alt="" className="w-full h-full object-cover"/>
-          </div>
-          <div className="title-container pl-4 ">
-            <p className="text-2xl font-bold">Tera Fitoor</p>
-            <p className="text-sm">Arijit Singh</p>
-          </div>
-          <div className="liked-songs pl-4">
-            <FaHeart className="text-3xl cursor-pointer"/>
-          </div>
-        </div>
-        <div className="player-container flex ">
-          <audio ref={audioRef} src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-          <div className="player-controls flex items-center justify-between">
-            <FaPlayCircle className="text-3xl cursor-pointer" onClick={togglePlayPause} />
-            <div className="flex items-center">
-              <p className="text-sm">0:00</p>
-              <p className="text-sm">/</p>
-              <p className="text-sm">0:00</p>
-            </div>
-            <div className="flex items-center">
-              <p className="text-sm">0:00</p>
-              <p className="text-sm">/</p>
-              <p className="text-sm">0:00</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+  return <div id="spotify-player"></div>;
 };
 
 export default Player;
