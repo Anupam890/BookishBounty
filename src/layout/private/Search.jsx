@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { FaPlayCircle } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Player from './Player';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Search = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
-  const [currentTrackUri, setCurrentTrackUri] = useState(null);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -32,10 +29,6 @@ const Search = () => {
     }
   };
 
-  const showPlayButton = (e) => {
-    e.target.style.display = 'block';
-  };
-
   const handleTrackClick = (trackUri) => {
     setCurrentTrackUri(trackUri);
   };
@@ -54,24 +47,27 @@ const Search = () => {
           Search
         </button>
       </form>
-      <div className="grid grid-rows-2 grid-flow-col gap-4 md:grid-col-2 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-4">
         {results.map((track) => (
           <div
             key={track.id}
             className="bg-gray-700 p-4 flex flex-col relative hover:bg-slate-600 cursor-pointer items-center justify-center rounded-md"
             onClick={() => handleTrackClick(track.uri)}
           >
-            <div className="image-container w-40 h-40">
-              <img src={track.album.images[0].url} alt={track.name} className="w-full h-40 object-cover rounded-lg mb-2" />
+            <div className="image-container w-full h-40">
+              <img
+                src={track.album.images[0].url}
+                alt={track.name}
+                className="w-full h-full object-cover rounded-lg mb-2"
+              />
             </div>
             <h3 className="text-lg text-gray-100 text-center pt-2">{track.name}</h3>
             <p className="text-gray-400">{track.artists.map(artist => artist.name).join(', ')}</p>
-            <FaPlayCircle onMouseOver={showPlayButton} className="text-5xl text-lime-500 cursor-pointer absolute bottom-20 right-5" />
+            <FaPlayCircle className="text-5xl text-lime-500 cursor-pointer absolute bottom-4 right-4" />
           </div>
         ))}
       </div>
-      <ToastContainer />
-      <Player trackUri={currentTrackUri} />
+      <Toaster />
     </div>
   );
 };

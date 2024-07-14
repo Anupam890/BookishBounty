@@ -1,33 +1,36 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const HomeDash = () => {
   const [songs, setSongs] = useState([]);
   const [userName, setUserName] = useState('');
 
-  
-  
-  const fetchUserName = async()=>{
-    try{
-      const response = await axios.get('http://localhost:8090/api/user');
-      console.log('API response:', response.data);
-      if(response.data.name){
-        setUserName(response.data.name);
-      }else{
-        console.error('API response does not contain a name:', response.data);
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+        const response = await axios.get('http://localhost:8090/api/user');
+        console.log('API response:', response.data);
+        if (response.data.name) {
+          setUserName(response.data.name);
+        } else {
+          console.error('API response does not contain a name:', response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching user name:', error);
       }
-    }catch(error){
-      console.error('Error fetching user name:', error);
-    }
-  }
-  fetchUserName();
+    };
+
+    fetchUserName();
+  }, []);
+
   const greet = () => {
-    if (new Date().getHours() < 12) {
+    const hour = new Date().getHours();
+    if (hour < 12) {
       return `Good Morning, ${userName}`;
-    } else if (new Date().getHours() < 18) {
-      return `Good Afternoon, ${userName}`
+    } else if (hour < 18) {
+      return `Good Afternoon, ${userName}`;
     } else {
-      return `Good Evening, ${userName}`
+      return `Good Evening, ${userName}`;
     }
   };
 
@@ -37,7 +40,7 @@ const HomeDash = () => {
       <h2 className="text-2xl font-bold text-gray-100 mb-4">Recently Played</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
         {songs.map((song) => (
-          <div key={song.id} className="bg-red-800 p-4 rounded-lg">
+          <div key={song.id} className="bg-gray-700 p-4 rounded-lg">
             <img
               src={song.albumArt}
               alt={song.title}

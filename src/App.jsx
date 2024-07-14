@@ -1,4 +1,5 @@
 import { BrowserRouter as Router,Routes,Route } from "react-router-dom";
+import { useState } from "react";
 // public Routes 
 import Home from "./layout/Home";
 import Navbar from "./layout/Navbar";
@@ -13,7 +14,8 @@ import Search from "./layout/private/Search";
 import Library from "./layout/private/Library";
 
 
-const App = ()=>{
+const App = (props)=>{
+
   return(
     <>
     <Router>
@@ -27,8 +29,8 @@ const App = ()=>{
         {/* private Routes  */}
         <Route path="/dashboard" element={<Dashboard/>}>
           <Route path="homeDash" element={<HomeDash/>}/>
-          <Route path="player" element={<Player/>}/>
-          <Route path="search" element={<Search/>}/>
+          <Route path="player" element={<Player />}/>
+          <Route path="search" element={<Search />}/>
           <Route path="library" element={<Library/>}/>
         </Route>
         
