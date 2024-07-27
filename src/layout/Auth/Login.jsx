@@ -19,7 +19,6 @@ const Login = () => {
    
     setDetail({...detail,[e.target.name]:e.target.value})
     console.log(detail)
-    
    
   }
   const navigate = useNavigate();

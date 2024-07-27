@@ -5,32 +5,18 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const Search = () => {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
+  const [songs, setSongs] = useState([]);
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (query.trim()) {
-      try {
-        const response = await axios.get('http://localhost:8090/api/music/search', {
-          params: { query },
-        });
-        if (response.data.tracks.items.length === 0) {
-          toast.warn('No results found for the search query.');
-        } else {
-          setResults(response.data.tracks.items);
-        }
-      } catch (error) {
-        console.error('Error fetching data from backend', error);
-        setResults([]);
-        toast.error('Error fetching data from backend.');
-      }
-    } else {
-      toast.warn('Please enter a search query.');
+    try {
+      const response = await axios.get(`http://localhost:8090/api/music/search?query=${query}`);
+      console.log(response.data.results);
+      setSongs(response.data.results);
+    } catch (error) {
+      console.log(error);
+      toast.error('Error fetching results');
     }
-  };
-
-  const handleTrackClick = (trackUri) => {
-    setCurrentTrackUri(trackUri);
   };
 
   return (
@@ -48,24 +34,31 @@ const Search = () => {
         </button>
       </form>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-4">
-        {results.map((track) => (
-          <div
-            key={track.id}
-            className="bg-gray-700 p-4 flex flex-col relative hover:bg-slate-600 cursor-pointer items-center justify-center rounded-md"
-            onClick={() => handleTrackClick(track.uri)}
-          >
-            <div className="image-container w-full h-40">
-              <img
-                src={track.album.images[0].url}
-                alt={track.name}
-                className="w-full h-full object-cover rounded-lg mb-2"
-              />
+        {songs && songs.length > 0 ? (
+          songs.map((song, index) => (
+            <div key={index} className="bg-gray-800 p-4 rounded-lg flex flex-col items-center text-center relative">
+              {song.image && song.image[0] && (
+                <div className="relative w-full h-40 mb-4">
+                  <img
+                    src={song.image[2].url}
+                    alt={song.name}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                  <FaPlayCircle className="text-5xl text-lime-500 cursor-pointer absolute bottom-2 right-2" />
+                </div>
+              )}
+              <h3 className="text-lg text-white mb-2">{song.name}</h3>
+    
+              {song.downloadUrl && song.downloadUrl[4] && (
+                <audio src={song.downloadUrl[4].url} controls className="w-full">
+                  Your browser does not support the audio element.
+                </audio>
+              )}
             </div>
-            <h3 className="text-lg text-gray-100 text-center pt-2">{track.name}</h3>
-            <p className="text-gray-400">{track.artists.map(artist => artist.name).join(', ')}</p>
-            <FaPlayCircle className="text-5xl text-lime-500 cursor-pointer absolute bottom-4 right-4" />
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-gray-400 text-center w-full">No songs found</p>
+        )}
       </div>
       <Toaster />
     </div>
