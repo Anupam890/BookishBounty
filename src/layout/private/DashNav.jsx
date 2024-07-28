@@ -1,13 +1,32 @@
 import { useState } from "react";
 import { FaBell, FaBars } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
+import axios from "axios";
+import Music from "./Music";
 
 export default function DashNav() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [songData, setSongData] = useState([]);
+
+  const fetchMusic = async (query) => {
+    try {
+      const response = await axios.get(`http://localhost:8090/api/music/search?query=${query}`); // Ensure the backend is running at this address
+      const data = response.data;
+      console.log(data);
+      setSongData(data.results); 
+    } catch (error) {
+      console.error("Error fetching music data:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    fetchMusic(e.target.value);
+  };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
+
   return (
     <>
       <nav className="bg-black border-b border-gray-700 text-white p-4 flex items-center justify-between">
@@ -19,6 +38,7 @@ export default function DashNav() {
           <input
             type="text"
             placeholder="Search"
+            onChange={handleChange}
             className="bg-gray-800 text-white pl-10 py-1 rounded-md w-72 focus:outline-none"
           />
         </div>
@@ -46,15 +66,13 @@ export default function DashNav() {
       </nav>
 
       {isModalOpen && (
-        // <div className="">
-        //   <div className="bg-gray-800 p-4 rounded-md">
-        //     <p className="text-white">Profile</p>
-        //     <p className="text-white">Settings</p>
-        //     <p className="text-white">Logout</p>
-        //   </div>
-        // </div>
-        <div></div>
+        <div className="absolute top-16 right-4 bg-gray-800 p-4 rounded-md shadow-lg">
+          <p className="text-white cursor-pointer">Profile</p>
+          <p className="text-white cursor-pointer">Settings</p>
+          <p className="text-white cursor-pointer">Logout</p>
+        </div>
       )}
+      <Music songData={songData} />
     </>
   );
 }

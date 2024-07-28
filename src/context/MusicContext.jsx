@@ -10,9 +10,9 @@ export const MusicProvider = ({ children }) => {
   const fetchMusic = async (query) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://saavn.dev/api/search/songs?query=${query}`);
-      const data = await response.json();
-      setMusicData(data.results);
+      // const response = await fetch(`https://saavn.dev/api/search/songs?query=${query}`);
+      // const data = await response.json();
+      // setMusicData(data.results);
     } catch (error) {
       console.error("Error fetching music data:", error);
     }

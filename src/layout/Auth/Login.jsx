@@ -99,7 +99,7 @@ const Login = () => {
               </div>
               <div className="text-center">
                 <p>
-                  `No account? `<Link to="/register" className="text-blue-500">Register</Link>
+                  No account? <Link to="/register" className="text-blue-500">Register</Link>
                 </p>
               </div>
             </form>
