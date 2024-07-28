@@ -8,7 +8,7 @@ import {
   FaBars,
   FaArrowAltCircleLeft,
   FaHeart,
-  FaLink 
+  FaLink,
 } from "react-icons/fa";
 import DashNav from "./DashNav";
 import Player from "./components/Player";
@@ -51,8 +51,8 @@ export default function Dashboard() {
     {
       to: "listen-together",
       label: "Listen Together",
-      icon: <FaLink  className="inline-block" />,
-    }
+      icon: <FaLink className="inline-block" />,
+    },
   ];
 
   return (
@@ -120,7 +120,7 @@ export default function Dashboard() {
         <div className="main-container p-3">
           <Outlet />
         </div>
-          <Player />
+        <Player />
       </div>
     </div>
   );

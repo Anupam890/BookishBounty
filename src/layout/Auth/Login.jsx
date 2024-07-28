@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link,useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook, FaGithub, FaEye, FaEyeSlash } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
-import Navbar from '../Navbar';
+
+
 
 const Login = () => {
   const [detail,setDetail] = useState({
@@ -39,7 +40,9 @@ const Login = () => {
           })
         
         })
-        navigate('/music')
+        setTimeout(()=>{
+          navigate('/dashboard')
+        },2000)
         const data = await res.json();
         
         if(res.status === 200){
@@ -55,7 +58,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="login w-full bg-black text-white">
+      <div className="login w-full h-screen bg-black text-white">
         <div className="flex justify-center items-center h-full">
           <div className="w-full md:w-1/2 lg:w-1/3 bg-opacity-10 backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 rounded-lg shadow-lg overflow-hidden p-4">
             <h2 className="text-2xl font-bold mb-4">Login</h2>
@@ -83,7 +86,7 @@ const Login = () => {
                 />
                 <button
                   type="button"
-                  
+                  onClick={togglePasswordVisibility}
                   className="absolute inset-y-10 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-200 focus:outline-none"
                 >
                   {passwordVisible ? <FaEyeSlash /> : <FaEye />}
@@ -96,7 +99,7 @@ const Login = () => {
               </div>
               <div className="text-center">
                 <p>
-                  Don't have an account? <Link to="/register" className="text-blue-500">Register</Link>
+                  `No account? `<Link to="/register" className="text-blue-500">Register</Link>
                 </p>
               </div>
             </form>
