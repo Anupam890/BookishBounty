@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 // public Routes
 import Home from "./layout/Home";
@@ -8,18 +9,18 @@ import Register from "./layout/Auth/Register";
 
 // private Routes
 import Dashboard from "./layout/private/Dashboard";
-import { useLocation } from "react-router-dom";
 import Music from "./layout/private/Music";
 import Settings from "./layout/private/Settings";
 import ListenTogether from "./layout/private/components/ListenTogether";
+import PrivateRoute from "./layout/private/components/PrivateRoute";
 
 const ConditionalNavBar = () => {
+
   const location = useLocation();
   if (
     location.pathname === "/" ||
     location.pathname === "/login" ||
-    location.pathname === "/register" ||
-    location.pathname === "/pre"
+    location.pathname === "/register"
   ) {
     return <Navbar />;
   } else {
@@ -28,6 +29,8 @@ const ConditionalNavBar = () => {
 };
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Replace with your actual authentication logic
+
   return (
     <Router>
       <ConditionalNavBar />
@@ -36,14 +39,14 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
- 
-        {/* private routes */}
-        <Route element={<Dashboard/>}>
-        <Route path="music" element={<Music />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="listen-together" element={<ListenTogether/>} />
-        </Route>
         
+        {/* private routes */}
+        <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/music" element={<Music />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/listen-together" element={<ListenTogether />} />
+        </Route>
       </Routes>
     </Router>
   );
