@@ -39,7 +39,7 @@ const Login = () => {
           })
         
         })
-        navigate('/dashboard')
+        navigate('/music')
         const data = await res.json();
         
         if(res.status === 200){
@@ -55,7 +55,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="login w-full h-screen bg-black text-white">
+      <div className="login w-full bg-black text-white">
         <div className="flex justify-center items-center h-full">
           <div className="w-full md:w-1/2 lg:w-1/3 bg-opacity-10 backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 rounded-lg shadow-lg overflow-hidden p-4">
             <h2 className="text-2xl font-bold mb-4">Login</h2>

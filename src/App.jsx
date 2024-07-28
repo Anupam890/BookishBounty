@@ -8,11 +8,10 @@ import Register from "./layout/Auth/Register";
 
 // private Routes
 import Dashboard from "./layout/private/Dashboard";
-
-
 import { useLocation } from "react-router-dom";
 import Music from "./layout/private/Music";
 import Settings from "./layout/private/Settings";
+import ListenTogether from "./layout/private/components/ListenTogether";
 
 const ConditionalNavBar = () => {
   const location = useLocation();
@@ -42,6 +41,7 @@ const App = () => {
         <Route element={<Dashboard/>}>
         <Route path="music" element={<Music />} />
         <Route path="settings" element={<Settings />} />
+        <Route path="listen-together" element={<ListenTogether/>} />
         </Route>
         
       </Routes>
