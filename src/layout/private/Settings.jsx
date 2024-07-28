@@ -1,11 +1,9 @@
 import React from 'react'
 
-const Library = () => {
+export default function Settings() {
   return (
     <div>
-      
+      settings
     </div>
   )
 }
-
-export default Library

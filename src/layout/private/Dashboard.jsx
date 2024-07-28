@@ -1,34 +1,18 @@
-import { FaHome, FaSearch } from "react-icons/fa";
-import { Link, Outlet } from "react-router-dom";
-import Player from '../private/Player';
+import DashNav from "./DashNav"
+import { Outlet } from "react-router-dom"
 
-const Dashboard = () => {
+export default function Dashboard() {
   return (
-    <>
-      <div className="bg-gray-800 min-h-screen text-white p-2 grid grid-cols-1 md:grid-cols-8 gap-4">
-        <div className="sidebar rounded-lg bg-gray-700 p-3 md:col-span-2 lg:col-span-1">
-          <ul className="flex flex-col space-y-4 items-center md:items-start">
-            <li className="flex items-center">
-              <FaHome className="mr-2" />
-              <Link to="homeDash" className="hover:text-gray-400">
-                Home
-              </Link>
-            </li>
-            <li className="flex items-center">
-              <FaSearch className="mr-2" />
-              <Link to="search" className="hover:text-gray-400">
-                Search
-              </Link>
-            </li>
-          </ul>
+    <div>
+      <div className="container h-screen flex max-w-full">
+        <div className="side-navbar border-2 border-white w-1/5">
+          <h2>Side</h2>
         </div>
-        <div className="right-container md:col-span-6 lg:col-span-7 p-4">
-          <Outlet />
+        <div className="main-content border-2 border-white w-4/5">
+        <DashNav/>
+        <Outlet />
         </div>
       </div>
-      <Player />
-    </>
-  );
-};
-
-export default Dashboard;
+    </div>
+  )
+}
