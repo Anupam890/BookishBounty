@@ -1,60 +1,57 @@
 import { useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook, FaGithub, FaEye, FaEyeSlash } from 'react-icons/fa';
 import toast, { Toaster } from 'react-hot-toast';
 
-
-
-const Login = () => {
-  const [detail,setDetail] = useState({
-    email:'',
-    password:''
-  })
+const Login = ({ setIsAuthenticated }) => {
+  const [detail, setDetail] = useState({
+    email: '',
+    password: ''
+  });
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleServer = async(e)=>{
-   
-    setDetail({...detail,[e.target.name]:e.target.value})
-    console.log(detail)
-   
-  }
+  const handleServer = (e) => {
+    setDetail({ ...detail, [e.target.name]: e.target.value });
+    console.log(detail);
+  };
+
   const navigate = useNavigate();
-  const RegisterData  = async(e)=>{
+  const RegisterData = async (e) => {
     e.preventDefault();
     try {
-      if(detail.email === '' || detail.password === ''){
+      if (detail.email === '' || detail.password === '') {
         toast.error('Please fill all the fields');
-      }else {
-        const res = await fetch('http://localhost:8090/api/auth/login',{
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json'
+      } else {
+        const res = await fetch('http://localhost:8090/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
           },
-          body:JSON.stringify({
-            email:detail.email,
-            password:detail.password
+          body: JSON.stringify({
+            email: detail.email,
+            password: detail.password
           })
-        
-        })
-        setTimeout(()=>{
-          navigate('/dashboard')
-        },2000)
+        });
         const data = await res.json();
-        
-        if(res.status === 200){
+
+        if (res.status === 200) {
           toast.success(data.message);
-        }else {
+          setIsAuthenticated(true);
+          setTimeout(() => {
+            navigate('/dashboard');
+          }, 2000);
+        } else {
           toast.error(data.message);
         }
       }
     } catch (error) {
       toast.error('Enter valid email and password');
     }
-  }
+  };
 
   return (
     <>
@@ -62,7 +59,7 @@ const Login = () => {
         <div className="flex justify-center items-center h-full">
           <div className="w-full md:w-1/2 lg:w-1/3 bg-opacity-10 backdrop-filter backdrop-blur-lg bg-white bg-opacity-20 rounded-lg shadow-lg overflow-hidden p-4">
             <h2 className="text-2xl font-bold mb-4">Login</h2>
-            <form onSubmit={RegisterData}> 
+            <form onSubmit={RegisterData}>
               <div className="mb-4">
                 <label htmlFor="email" className="block text-white">Email</label>
                 <input
@@ -129,5 +126,3 @@ const Login = () => {
 }
 
 export default Login;
-
-

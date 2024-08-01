@@ -6,6 +6,7 @@ import Home from "./layout/Home";
 import Navbar from "./layout/Navbar";
 import Login from "./layout/Auth/Login";
 import Register from "./layout/Auth/Register";
+import OTPVerify from "./layout/Auth/OTPVerify";
 
 // private Routes
 import Dashboard from "./layout/private/Dashboard";
@@ -19,8 +20,9 @@ const ConditionalNavBar = () => {
   const location = useLocation();
   if (
     location.pathname === "/" ||
-    location.pathname === "/login" ||
-    location.pathname === "/register"
+    location.pathname === "login" ||
+    location.pathname === "register" ||
+    location.pathname === "otp-verify"
   ) {
     return <Navbar />;
   } else {
@@ -29,30 +31,31 @@ const ConditionalNavBar = () => {
 };
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <>
-    <MusicProvider>
-    <Router>
-      <ConditionalNavBar />
-      <Routes>
-        {/* public routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+      <MusicProvider>
+        <Router>
+          <ConditionalNavBar />
+          <Routes>
+            {/* public routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+            <Route path="register" element={<Register />} />
+            <Route path="otp-verify" element={<OTPVerify />} />
 
-        {/* private routes */}
-        <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
-          <Route path="/dashboard/*" element={<Dashboard />}>
-            <Route path="music" element={<Music />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="listen-together" element={<ListenTogether />} />
-          </Route>
-        </Route>
-      </Routes>
-    </Router>
-    </MusicProvider>
+            {/* private routes */}
+            <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
+              <Route path="/dashboard/*" element={<Dashboard />}>
+                <Route path="music" element={<Music />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="listen-together" element={<ListenTogether />} />
+              </Route>
+            </Route>
+          </Routes>
+        </Router>
+      </MusicProvider>
     </>
   );
 };

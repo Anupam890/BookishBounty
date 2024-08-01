@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 import { FaGoogle, FaFacebook, FaGithub } from "react-icons/fa";
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -9,6 +9,7 @@ const Register = () => {
     email: "",
     password: ""
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +41,7 @@ const Register = () => {
             email: "",
             password: "",
           });
+          navigate("otp-verify");
         } else {
           toast.error(data.message);
         }

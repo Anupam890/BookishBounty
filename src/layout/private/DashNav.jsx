@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaBell, FaBars } from "react-icons/fa";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import axios from "axios";
@@ -7,10 +7,12 @@ import Music from "./Music";
 export default function DashNav() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [songData, setSongData] = useState([]);
+  const [userData, setUserData] = useState(null);
 
+  // Fetch music data
   const fetchMusic = async (query) => {
     try {
-      const response = await axios.get(`http://localhost:8090/api/music/search?query=${query}`); // Ensure the backend is running at this address
+      const response = await axios.get(`http://localhost:8090/api/music/search?query=${query}`); 
       const data = response.data;
       console.log(data);
       setSongData(data.results); 
@@ -18,6 +20,23 @@ export default function DashNav() {
       console.error("Error fetching music data:", error);
     }
   };
+
+  // Fetch user data
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8090/api/user");
+      const data = response.data;
+      console.log(data);
+      setUserData(data); // Store user data in state
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  // Fetch user data on component mount
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const handleChange = (e) => {
     fetchMusic(e.target.value);
@@ -55,12 +74,12 @@ export default function DashNav() {
           >
             <div className="profile-img bg-white w-8 h-8 rounded-full overflow-hidden">
               <img
-                src="https://aui.atlassian.com/aui/latest/docs/images/avatar-person.svg"
+                src={userData?.profileImage || "https://aui.atlassian.com/aui/latest/docs/images/avatar-person.svg"}
                 alt="profile"
                 className="w-full h-full"
               />
             </div>
-            <p>Anupam</p>
+            <p>{userData?.name }</p>
           </div>
         </div>
       </nav>
