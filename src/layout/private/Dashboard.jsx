@@ -67,7 +67,7 @@ export default function Dashboard() {
       <div
         className={`side-navbar bg-black text-white border-r fixed md:static z-10 h-full md:h-auto w-2/5 md:w-1/5 transform ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 transition-transform duration-300 ease-in-out`}
+        } md:translate-x-0 transition-transform duration-300 ease-in-out bg-black`}
       >
         <h2 className="text-center my-4 text-xl font-bold">Musica</h2>
         <div className="nav-items-container">

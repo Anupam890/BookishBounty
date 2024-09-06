@@ -118,11 +118,11 @@ const Register = () => {
             <div className="border-t-2 border-white my-4"></div>
             {/* Authentication with Google, Facebook, and GitHub */}
             <div className="flex justify-center items-center space-x-4">
-              <button className="flex items-center py-2 px-4 bg-red-500 hover:bg-red-600 rounded-lg text-white">
+              <button className="flex items-center py-2 px-4 bg-gray-800 hover:bg-gray-900 rounded-lg text-white">
                 <FaGoogle className="mr-2" />
                 <span>Google</span>
               </button>
-              <button className="flex items-center py-2 px-4 bg-blue-700 hover:bg-blue-800 rounded-lg text-white">
+              <button className="flex items-center py-2 px-4 bg-gray-800 hover:bg-gray-900 rounded-lg text-white">
                 <FaFacebook className="mr-2" />
                 <span>Facebook</span>
               </button>

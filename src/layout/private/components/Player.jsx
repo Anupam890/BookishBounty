@@ -43,7 +43,7 @@ const Player = ({ currentSong }) => {
   if (!currentSong) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 flex items-center justify-between">
+    <div className="fixed bottom-0 left-0 right-0 bg-gray-900 z-10 text-white p-4 flex items-center justify-between">
       <audio ref={audioRef} src={currentSong.downloadUrl[4].url} onTimeUpdate={updateProgress} />
       <div className="flex items-center space-x-4">
         {currentSong.image && currentSong.image[0] && (
